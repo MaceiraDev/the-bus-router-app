@@ -43,17 +43,44 @@ public class MainActivity extends AppCompatActivity {
         String usuario = edtUsuario.getText().toString();
         String senha = edtSenha.getText().toString();
 
-        if (!usuario.equals("") && !senha.equals("")) {
-            String url = "http://localhost:3000/users";
-            String response = HttpRequest.sendGetRequest(url);
+        String apiUrl = "http://localhost:3000/usuarios";
 
-            JSONObject jsonResponse = new JSONObject(response);
-            JSONArray users = jsonResponse.getJSONObject("usuarios").getJSONArray("users");
+        try {
+            // Realiza a requisição GET
+            String jsonResponse = HttpRequest.sendGetRequest(apiUrl);
 
-            String apiUsuario = userObject.getString("login")
+            if (jsonResponse != null) {
+                // Parse do JSON
+                JSONObject jsonObject = new JSONObject(jsonResponse);
+                JSONArray usersArray = jsonObject.getJSONArray("users");
 
-        }else {
-            Toast.makeText(this, "Login falhou", Toast.LENGTH_SHORT).show();
+                // Agora você pode iterar sobre os objetos do array
+                for (int i = 0; i < usersArray.length(); i++) {
+                    JSONObject userObject = usersArray.getJSONObject(i);
+
+                    // Exemplo: Obtém o nome do usuário
+                    String nome = userObject.getString("nome");
+
+                    // Aqui você pode fazer o que quiser com os dados, como verificar login
+                    // Comparar com os dados inseridos pelo usuário
+                    if (usuario.equals(userObject.getString("login")) && senha.equals(userObject.getString("senha"))) {
+                        // Login bem-sucedido
+                        Toast.makeText(this, "Login bem-sucedido para: " + nome, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+                // Se chegou aqui, o login falhou
+                Toast.makeText(this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Erro ao obter dados da API", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            // Tratar exceções, se necessário
+            e.printStackTrace();
+            Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
     }
 }
+//Toast.makeText(this, "Login falhou", Toast.LENGTH_SHORT).show();
