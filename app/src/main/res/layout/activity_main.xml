@@ -79,10 +79,11 @@
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/edtUsuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:drawableEnd="@drawable/baseline_email_24"/>
+                android:drawableEnd="@drawable/baseline_email_24"
+                android:inputType="textEmailAddress" />
 
 
 
@@ -98,20 +99,23 @@
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/edtSenha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:drawableEnd="@drawable/baseline_remove_red_eye_24"/>
+                android:drawableEnd="@drawable/baseline_remove_red_eye_24"
+                android:inputType="textPassword" />
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="10dp"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Login"
-                app:cornerRadius="32dp"/>
+                android:textColor="@color/segundaria"
+                app:cornerRadius="32dp" />
 
         </LinearLayout>
 
