@@ -6,15 +6,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.example.the_bus_router_app.db.HttpRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.example.the_bus_router_app.db.BuscarDados;
+import com.example.the_bus_router_app.models.Usuario;
+
 
 public class MainActivity extends AppCompatActivity {
 
+    private ArrayList<Usuario>listaDados;
     EditText edtUsuario, edtSenha;
     Button btnLogin;
 
@@ -32,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     verificarLogin();
+
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -40,47 +48,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void verificarLogin() throws Exception {
-        String usuario = edtUsuario.getText().toString();
-        String senha = edtSenha.getText().toString();
-
-        String apiUrl = "http://localhost:3000/usuarios";
+        String loginD = edtUsuario.getText().toString();
+        String senhaD = edtSenha.getText().toString();
+        // até aqui foi
 
         try {
-            // Realiza a requisição GET
-            String jsonResponse = HttpRequest.sendGetRequest(apiUrl);
+            listaDados = new BuscarDados().execute(Config.link).get();
 
-            if (jsonResponse != null) {
-                // Parse do JSON
-                JSONObject jsonObject = new JSONObject(jsonResponse);
-                JSONArray usersArray = jsonObject.getJSONArray("users");
+            boolean loginSucedido = false;
 
-                // Agora você pode iterar sobre os objetos do array
-                for (int i = 0; i < usersArray.length(); i++) {
-                    JSONObject userObject = usersArray.getJSONObject(i);
+            for (int i = 0; i < listaDados.size(); i++) {
 
-                    // Exemplo: Obtém o nome do usuário
-                    String nome = userObject.getString("nome");
+                Usuario usuario = listaDados.get(i);
 
-                    // Aqui você pode fazer o que quiser com os dados, como verificar login
-                    // Comparar com os dados inseridos pelo usuário
-                    if (usuario.equals(userObject.getString("login")) && senha.equals(userObject.getString("senha"))) {
-                        // Login bem-sucedido
-                        Toast.makeText(this, "Login bem-sucedido para: " + nome, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                if (loginD.equals(usuario.login) && senhaD.equals(usuario.senha)) {
+                    loginSucedido = true;
+                    break;
                 }
-
-                // Se chegou aqui, o login falhou
-                Toast.makeText(this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Erro ao obter dados da API", Toast.LENGTH_SHORT).show();
             }
-        } catch (Exception e) {
-            // Tratar exceções, se necessário
-            e.printStackTrace();
-            Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
 
+            if (loginSucedido) {
+                Toast.makeText(this, "Login funcionou", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Login falhou", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 }
-//Toast.makeText(this, "Login falhou", Toast.LENGTH_SHORT).show();
