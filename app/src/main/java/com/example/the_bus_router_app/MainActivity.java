@@ -2,6 +2,9 @@ package com.example.the_bus_router_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     EditText edtUsuario, edtSenha;
     Button btnLogin;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         edtSenha = findViewById(R.id.edtSenha);
         edtUsuario = findViewById(R.id.edtUsuario);
         btnLogin = findViewById(R.id.btnLogin);
+
+        estaLogado();
+
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,13 +57,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void estaLogado() {
+
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String loginR = sharedPref.getString("login", "");
+        String senhaR = sharedPref.getString("login", "");
+
+        if (!loginR.equals("") && !senhaR.equals("")) {
+            Intent intent = new Intent(MainActivity.this, InicialActivity.class);
+            startActivity(intent);
+        }
+    }
+
     private void verificarLogin() throws Exception {
         String loginD = edtUsuario.getText().toString();
         String senhaD = edtSenha.getText().toString();
-        // até aqui foi
+
 
         try {
-            listaDados = new BuscarDados().execute(Config.link).get();
+            listaDados = new BuscarDados().execute(Config.link + "usuarios/").get();
 
             boolean loginSucedido = false;
 
@@ -69,6 +91,16 @@ public class MainActivity extends AppCompatActivity {
 
             if (loginSucedido) {
                 Toast.makeText(this, "Login funcionou", Toast.LENGTH_SHORT).show();
+
+                SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("login", loginD);
+                editor.putString("senha", senhaD);
+                editor.commit();
+
+                Intent intent = new Intent(MainActivity.this, InicialActivity.class);
+                startActivity(intent);
             } else {
                 Toast.makeText(this, "Login falhou", Toast.LENGTH_SHORT).show();
             }
