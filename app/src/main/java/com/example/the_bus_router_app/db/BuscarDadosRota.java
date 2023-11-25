@@ -36,8 +36,9 @@ public class BuscarDadosRota extends AsyncTask<String, Void, ArrayList<Rota>> {
                 dados += linha;
             }
 
-            JSONObject json = new JSONObject(dados);
-            JSONArray lista = new JSONArray(json.getString("rota"));
+            //JSONObject json = new JSONObject(dados);
+            JSONArray lista = new JSONArray(dados);
+                                // json.getString("rota")
 
             for (int i = 0; i < lista.length(); i++){
                 JSONObject item = (JSONObject)lista.get(i);
