@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".InicialActivity">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnDeslogar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,6 +14,7 @@
         android:layout_marginEnd="36dp"
         android:text="Deslogar"
         android:textColor="@color/segundaria"
+        app:cornerRadius="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

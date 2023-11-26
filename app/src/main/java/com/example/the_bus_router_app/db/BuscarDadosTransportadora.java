@@ -3,6 +3,7 @@ package com.example.the_bus_router_app.db;
 import android.os.AsyncTask;
 
 import com.example.the_bus_router_app.models.Rota;
+import com.example.the_bus_router_app.models.Transportadora;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,11 +15,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-public class BuscarDadosRota extends AsyncTask<String, Void, ArrayList<Rota>> {
-
+public class BuscarDadosTransportadora extends AsyncTask<String, Void, ArrayList<Transportadora>> {
     @Override
-    protected ArrayList<Rota> doInBackground(String... strings) {
-        ArrayList<Rota> listaRotas = new ArrayList<>();
+    protected ArrayList<Transportadora> doInBackground(String... strings) {
+        ArrayList<Transportadora> listaTransportadoras = new ArrayList<>();
 
         try {
             String link = strings[0];
@@ -36,29 +36,28 @@ public class BuscarDadosRota extends AsyncTask<String, Void, ArrayList<Rota>> {
                 dados += linha;
             }
 
-            //JSONObject json = new JSONObject(dados);
+                //JSONObject json = new JSONObject(dados);
             JSONArray lista = new JSONArray(dados);
-                                // json.getString("rota")
+                // json.getString("rota")
 
             for (int i = 0; i < lista.length(); i++){
                 JSONObject item = (JSONObject)lista.get(i);
 
-                Rota rota = new Rota();
-                rota.transportadora = item.getLong("transportadora");
-                rota.descricao = item.getString("descricao");
-                rota.id = item.getLong("id");
-                rota.localPartida = item.getString("localPartida");
-                rota.destino = item.getString("destino");
-                rota.saida = item.getString("saida");
-                rota.chegada = item.getString("chegada");
+                Transportadora transportadora = new Transportadora();
+                transportadora.id = item.getLong("id");
+                transportadora.nome = item.getString("nome");
+                transportadora.endereco = item.getString("endereco");
+                transportadora.telefone = item.getString("telefone");
+                transportadora.email = item.getString("email");
+                transportadora.sitio = item.getString("sitio");
 
-                listaRotas.add(rota);
+                listaTransportadoras.add(transportadora);
             }
         }
         catch (Exception ex){
             ex.printStackTrace();
         }
 
-        return listaRotas;
+        return listaTransportadoras;
     }
 }

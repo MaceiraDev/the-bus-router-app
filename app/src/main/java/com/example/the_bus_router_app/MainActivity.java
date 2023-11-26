@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (loginSucedido) {
-                Toast.makeText(this, "Login funcionou", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Login feito com sucesso", Toast.LENGTH_SHORT).show();
 
                 SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, InicialActivity.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "Login falhou", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Não foi possível realizar login", Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {

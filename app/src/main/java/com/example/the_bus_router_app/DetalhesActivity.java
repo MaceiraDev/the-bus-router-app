@@ -8,9 +8,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.the_bus_router_app.db.BuscarDadosTransportadora;
+import com.example.the_bus_router_app.models.Rota;
+import com.example.the_bus_router_app.models.Transportadora;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DetalhesActivity extends AppCompatActivity {
+
 
     TextView txtTransportadora;
     TextView txtDescricao;
@@ -36,12 +44,14 @@ public class DetalhesActivity extends AppCompatActivity {
 
         Bundle parametros = getIntent().getExtras();
         if (parametros != null) {
+
             String transportadora = parametros.getString("transportadora");
             String descricao = parametros.getString("descricao");
             String localPartida = parametros.getString("localPartida");
             String LocalDestino = parametros.getString("destino");
             String saida = parametros.getString("saida");
             String chegada = parametros.getString("chegada");
+
 
             txtTransportadora.setText(transportadora);
             txtDescricao.setText(descricao);
@@ -51,6 +61,7 @@ public class DetalhesActivity extends AppCompatActivity {
             txtChegada.setText(chegada);
 
         }
+
 
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,4 +77,5 @@ public class DetalhesActivity extends AppCompatActivity {
 
 
     }
+
 }
