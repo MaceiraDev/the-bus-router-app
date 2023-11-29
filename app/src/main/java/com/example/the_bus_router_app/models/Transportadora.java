@@ -1,14 +1,12 @@
 package com.example.the_bus_router_app.models;
 
-public class Usuario {
+public class Transportadora {
 
     public Long id;
     public String nome;
-    public String cpf;
     public String endereco;
+    public String telefone;
     public String email;
-    public Integer telefone;
-    public String login;
-    public String senha;
+    public String sitio;
 
 }
